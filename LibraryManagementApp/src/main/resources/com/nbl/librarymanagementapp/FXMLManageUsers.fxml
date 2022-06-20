@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nbl.librarymanagementapp.ManageUsersController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="USER LIST" />
+      <VBox prefHeight="340.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Id" wrappingWidth="139.17382049560547" />
+                  <TextField fx:id="txtId" prefHeight="26.0" prefWidth="398.0" />
+                  <Button mnemonicParsing="false" onAction="#clearIdHandler" text="Clear id" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="139.17382049560547" />
+                  <TextField fx:id="txtUsername" prefHeight="26.0" prefWidth="454.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text accessibleRole="PASSWORD_FIELD" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="137.88671112060547" />
+                  <TextField fx:id="txtPassword" prefHeight="26.0" prefWidth="455.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="139.17070770263672" />
+                  <TextField fx:id="txtName" prefHeight="26.0" prefWidth="454.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" wrappingWidth="140.25273895263672" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="rdoMale" mnemonicParsing="false" text="Male">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="gender" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="rdoFemale" mnemonicParsing="false" text="Female" toggleGroup="$gender" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Role" wrappingWidth="141.40352630615234" />
+                  <ComboBox fx:id="cbxRole" prefHeight="26.0" prefWidth="452.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="102.0" prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Department" wrappingWidth="140.28319549560547" />
+                  <ComboBox fx:id="cbxDepartment" prefHeight="26.0" prefWidth="453.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="127.0" prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of birth" wrappingWidth="140.0222396850586" />
+                  <DatePicker fx:id="dpDateOfBirth" prefHeight="26.0" prefWidth="453.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="152.0" prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Registration date" wrappingWidth="140.53008270263672" />
+                  <DatePicker fx:id="dpRegistrationDate" prefHeight="26.0" prefWidth="454.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Expiration date" wrappingWidth="139.34960174560547" />
+                  <DatePicker fx:id="dpExpirationDate" prefHeight="26.0" prefWidth="454.0" />
+               </children>
+            </HBox>
+            
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="140.32421112060547" />
+                  <TextField fx:id="txtEmail" prefHeight="26.0" prefWidth="454.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Address" wrappingWidth="139.95311737060547" />
+                  <TextField fx:id="txtAddress" prefHeight="26.0" prefWidth="454.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone" wrappingWidth="140.1742172241211" />
+                  <TextField fx:id="txtPhone" prefHeight="26.0" prefWidth="454.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="137.0" prefWidth="600.0">
+               <children>
+                  <VBox prefHeight="44.0" prefWidth="261.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#addHandler" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#editHandler" text="Edit" />
+                  <Button mnemonicParsing="false" onAction="#refreshHandler" text="Refresh" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox prefHeight="0.0" prefWidth="600.0">
+         <children>
+            <ComboBox prefHeight="26.0" prefWidth="142.0" />
+            <TextField fx:id="txtKeyword" prefHeight="26.0" prefWidth="452.0" />
+         </children>
+      </HBox>
+      <TableView fx:id="tbUser" />
+   </children>
+</VBox>

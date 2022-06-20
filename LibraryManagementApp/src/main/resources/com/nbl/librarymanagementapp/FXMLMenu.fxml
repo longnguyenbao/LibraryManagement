@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nbl.librarymanagementapp.MenuController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Menu" />
+      <Button mnemonicParsing="false" onAction="#manageAccountsHandler" prefHeight="26.0" prefWidth="109.0" text="Manage users" />
+      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="109.0" text="Manage books" />
+      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="View library" />
+      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Manage borrow" />
+      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Manage return" />
+      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Borrow stat" />
+      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Return stat" />
+   </children>
+</VBox>
