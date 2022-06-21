@@ -8,7 +8,7 @@
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Menu" />
       <Button mnemonicParsing="false" onAction="#manageAccountsHandler" prefHeight="26.0" prefWidth="109.0" text="Manage users" />
-      <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="109.0" text="Manage books" />
+      <Button mnemonicParsing="false" onAction="#manageBookesHandler" prefHeight="26.0" prefWidth="109.0" text="Manage books" />
       <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="View library" />
       <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Manage borrow" />
       <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Manage return" />

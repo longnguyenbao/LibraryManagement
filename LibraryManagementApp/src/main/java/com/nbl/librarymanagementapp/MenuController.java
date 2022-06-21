@@ -56,4 +56,13 @@ public class MenuController implements Initializable {
             Utils.getBox("You don't have permission for this!", Alert.AlertType.WARNING).show();
         }
     }
+    
+    public void manageBookesHandler(ActionEvent evt) throws IOException, SQLException {
+        if(this.getRole().equals("Admin")) {
+            Utils.loadFXML("FXMLManageBooks.fxml", "Manage books");
+        }
+        else {
+            Utils.getBox("You don't have permission for this!", Alert.AlertType.WARNING).show();
+        }
+    }
 }

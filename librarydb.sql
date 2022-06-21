@@ -11,7 +11,7 @@ CREATE TABLE `category` (
 
 CREATE TABLE `book` (
 	`id` varchar(50) NOT NULL,
-	`name` text DEFAULT NULL,
+	`name` text NOT NULL,
 	`description` text DEFAULT NULL,
 	`publication_year` int DEFAULT NULL,
 	`publication_place` text DEFAULT NULL,

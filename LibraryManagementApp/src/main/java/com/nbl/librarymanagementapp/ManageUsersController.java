@@ -12,9 +12,7 @@ import com.nbl.services.DepartmentServices;
 import com.nbl.services.UserServices;
 import com.nbl.utils.Utils;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -324,7 +322,7 @@ public class ManageUsersController implements Initializable {
                     setText(null);
                 } else {
                     btnDelete.setOnAction(event -> {
-                        Alert a = Utils.getBox("Do you want to delete?", Alert.AlertType.CONFIRMATION);
+                        Alert a = Utils.getBox("Are you sure to delete?", Alert.AlertType.CONFIRMATION);
                         Optional<ButtonType> result = a.showAndWait();
                         if(result.get() == ButtonType.OK) {
                             User user = getTableView().getItems().get(getIndex());

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nbl.librarymanagementapp.ManageBooksController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BOOK LIST" />
+      <VBox prefHeight="340.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Id" wrappingWidth="93.29922103881836" />
+                  <TextField fx:id="txtId" prefHeight="26.0" prefWidth="454.0" />
+                  <Button mnemonicParsing="false" onAction="#createIdHandler" prefHeight="26.0" prefWidth="89.0" text="Create id" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="93.37188339233398" />
+                  <TextField fx:id="txtName" prefHeight="26.0" prefWidth="543.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="92.06563949584961" />
+                  <TextArea fx:id="areaDescription" prefHeight="38.0" prefWidth="544.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Publication year" wrappingWidth="92.81405639648438" />
+                  <TextField fx:id="txtPublicationYear" prefHeight="26.0" prefWidth="544.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Publication place" wrappingWidth="92.044921875" />
+                  <TextField fx:id="txtPublicationPlace" prefHeight="26.0" prefWidth="544.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Entry date" wrappingWidth="92.38436508178711" />
+                  <DatePicker fx:id="dpEntryDate" prefHeight="26.0" prefWidth="178.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" wrappingWidth="93.59103012084961" />
+                  <TextField fx:id="txtLocation" prefHeight="26.0" prefWidth="542.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="176.0" prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category" wrappingWidth="93.25857162475586" />
+                  <ComboBox fx:id="cbxCategory" prefHeight="26.0" prefWidth="178.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="137.0" prefWidth="600.0">
+               <children>
+                  <TableView fx:id="tbAuthor" prefHeight="200.0" prefWidth="325.0" />
+                  <VBox prefHeight="44.0" prefWidth="261.0">
+                     <children>
+                        <ComboBox fx:id="cbxAuthor" prefHeight="26.0" prefWidth="206.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#addAuthorHandler" text="Add author" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="600.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#addBookHandler" text="Add" />
+                  <Button mnemonicParsing="false" text="Edit" />
+                  <Button mnemonicParsing="false" onAction="#refreshHandler" text="Refresh" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox prefHeight="0.0" prefWidth="600.0">
+         <children>
+            <ComboBox fx:id="cbxSearchCondition" prefWidth="150.0" />
+            <TextField fx:id="txtKeywords" prefHeight="26.0" prefWidth="486.0" />
+         </children>
+      </HBox>
+      <TableView fx:id="tbBook" prefHeight="200.0" prefWidth="600.0" />
+   </children>
+</VBox>
