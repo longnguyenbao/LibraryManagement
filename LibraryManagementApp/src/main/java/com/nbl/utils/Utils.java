@@ -12,6 +12,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -72,5 +74,19 @@ public class Utils {
     
     public static Date parseDateNow() {
         return Date.valueOf(LocalDate.now());
+    }
+    
+    public static Integer parseIntOrNull(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+    
+    public static boolean checkSpecialCharacter(String s) {
+        Pattern p = Pattern.compile("[^A-Za-z0-9]");
+        Matcher m = p.matcher(s);
+        return m.find();
     }
 }

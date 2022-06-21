@@ -129,48 +129,8 @@ public class ManageUsersController implements Initializable {
             return;
         }
         
-        if (this.cbxRole.getValue() == null) {
-            Utils.getBox("Role is null!", Alert.AlertType.WARNING).show();
-            return;
-        }
-        
-        if (this.cbxDepartment.getValue() == null) {
-            Utils.getBox("Department is null!", Alert.AlertType.WARNING).show();
-            return;
-        }
-        
         if(this.txtPassword.getText().isEmpty()) {
             Utils.getBox("Password is null!", Alert.AlertType.WARNING).show();
-            return;
-        }
-        
-        User user = new User();
-        user.setUsername(txtUsername.getText());
-        user.setName(txtName.getText());
-        user.setEmail(txtEmail.getText());
-        user.setDateOfBirth(Utils.parseDate(dpDateOfBirth.valueProperty().get()));
-        user.setRoleId(cbxRole.getSelectionModel().getSelectedItem().getId());
-        user.setDepartmentId(cbxDepartment.getSelectionModel().getSelectedItem().getId());
-        user.setGender(pickGender());
-        user.setRegistrationDate(Utils.parseDate(dpRegistrationDate.valueProperty().get()));
-        user.setExpirationDate(Utils.parseDate(dpExpirationDate.valueProperty().get()));
-        user.setAddress(txtAddress.getText());
-        user.setPhone(txtPhone.getText());
-        user.setPassword(txtPassword.getText());
-
-        UserServices s = new UserServices();       
-        if(s.addUser(user)) {
-            refreshHandler();
-            Utils.getBox("Add user successful!", Alert.AlertType.INFORMATION).show();
-        }
-        else {
-            Utils.getBox("Something went wrong!", Alert.AlertType.WARNING).show();
-        }
-    }
-    
-    public void editHandler(ActionEvent evt) throws SQLException {
-        if(this.txtUsername.getText().isBlank()) {
-            Utils.getBox("Username is null!", Alert.AlertType.WARNING).show();
             return;
         }
         
@@ -184,13 +144,8 @@ public class ManageUsersController implements Initializable {
             return;
         }
         
-        if(this.txtPassword.getText().isEmpty()) {
-            Utils.getBox("Password is null!", Alert.AlertType.WARNING).show();
-            return;
-        }
-
         User user = new User();
-        user.setId(Integer.parseInt(txtId.getText()));
+        user.setId(Utils.parseIntOrNull(txtId.getText()));
         user.setUsername(txtUsername.getText());
         user.setName(txtName.getText());
         user.setEmail(txtEmail.getText());
@@ -205,13 +160,115 @@ public class ManageUsersController implements Initializable {
         user.setPassword(txtPassword.getText());
 
         UserServices s = new UserServices();
-
-        if(s.editUser(user)) {
-            refreshHandler();
-            Utils.getBox("Edit successful!", Alert.AlertType.INFORMATION).show();
+        Integer check = s.addUser(user);
+        
+        switch(check) {
+            case 1:
+                refreshHandler();
+                Utils.getBox("Add user successful!", Alert.AlertType.INFORMATION).show();
+                break;
+            case 10:
+                Utils.getBox("Username is null!", Alert.AlertType.WARNING).show();
+                break;
+            case 11:
+                Utils.getBox("Password is null!", Alert.AlertType.WARNING).show();
+                break;
+            case 12:
+                Utils.getBox("Role is null!", Alert.AlertType.WARNING).show();
+                break;    
+            case 13:
+                Utils.getBox("Department is null!", Alert.AlertType.WARNING).show();
+                break; 
+            case 14:
+                Utils.getBox("Please clear user id to add new user!", Alert.AlertType.WARNING).show();
+                break; 
+            case 15:
+                Utils.getBox("Username contains special character!", Alert.AlertType.WARNING).show();
+                break;
+            case 16:
+                Utils.getBox("Name contains special character!", Alert.AlertType.WARNING).show();
+                break;
+            case 17:
+                Utils.getBox("This username was taken by another user!", Alert.AlertType.WARNING).show();
+                break;
+            default:
+                Utils.getBox("Something went wrong!", Alert.AlertType.WARNING).show();
         }
-        else {
-            Utils.getBox("Something went wrong!", Alert.AlertType.WARNING).show();
+    }
+    
+    public void editHandler(ActionEvent evt) throws SQLException {
+        if(this.txtUsername.getText().isBlank()) {
+            Utils.getBox("Username is null!", Alert.AlertType.WARNING).show();
+            return;
+        }
+        
+        if(this.txtPassword.getText().isEmpty()) {
+            Utils.getBox("Password is null!", Alert.AlertType.WARNING).show();
+            return;
+        }
+        
+        if (this.cbxRole.getValue() == null) {
+            Utils.getBox("Role is null!", Alert.AlertType.WARNING).show();
+            return;
+        }
+        
+        if (this.cbxDepartment.getValue() == null) {
+            Utils.getBox("Department is null!", Alert.AlertType.WARNING).show();
+            return;
+        }
+        
+        User user = new User();
+        user.setId(Utils.parseIntOrNull(txtId.getText()));
+        user.setUsername(txtUsername.getText());
+        user.setName(txtName.getText());
+        user.setEmail(txtEmail.getText());
+        user.setDateOfBirth(Utils.parseDate(dpDateOfBirth.valueProperty().get()));
+        user.setRoleId(cbxRole.getSelectionModel().getSelectedItem().getId());
+        user.setDepartmentId(cbxDepartment.getSelectionModel().getSelectedItem().getId());
+        user.setGender(pickGender());
+        user.setRegistrationDate(Utils.parseDate(dpRegistrationDate.valueProperty().get()));
+        user.setExpirationDate(Utils.parseDate(dpExpirationDate.valueProperty().get()));
+        user.setAddress(txtAddress.getText());
+        user.setPhone(txtPhone.getText());
+        user.setPassword(txtPassword.getText());
+
+        UserServices s = new UserServices();
+        Integer check = s.editUser(user);
+        
+        switch (check) {
+            case 1:
+                refreshHandler();
+                Utils.getBox("Edit user successful!", Alert.AlertType.INFORMATION).show();
+                break;
+            case 10:
+                Utils.getBox("Username is null!", Alert.AlertType.WARNING).show();
+                break;
+            case 11:
+                Utils.getBox("Password is null!", Alert.AlertType.WARNING).show();
+                break;
+            case 12:
+                Utils.getBox("Role is null!", Alert.AlertType.WARNING).show();
+                break;    
+            case 13:
+                Utils.getBox("Department is null!", Alert.AlertType.WARNING).show();
+                break; 
+            case 14:
+                Utils.getBox("User id is null!", Alert.AlertType.WARNING).show();
+                break; 
+            case 15:
+                Utils.getBox("Username contains special character!", Alert.AlertType.WARNING).show();
+                break;
+            case 16:
+                Utils.getBox("Name contains special character!", Alert.AlertType.WARNING).show();
+                break;
+            case 17:
+                Utils.getBox("User id does not exist!", Alert.AlertType.WARNING).show();
+                break;
+            case 18:
+                Utils.getBox("This username was taken by another user!", Alert.AlertType.WARNING).show();
+                break;
+            default:
+                Utils.getBox("Something went wrong!", Alert.AlertType.WARNING).show();
         }
     }
     

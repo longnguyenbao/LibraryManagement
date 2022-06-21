@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,10 @@ public class UserServices {
     public User signIn(User user) throws SQLException, IOException{
         try (Connection conn = JdbcUtils.getConn()) {
                 PreparedStatement stm = conn.prepareStatement("SELECT * FROM `user` "
-                        + "WHERE `username` = ? and `password` = ? and `role_id` = ? ");
+                        + "WHERE `username` = ? "
+                        + "and `password` = ? "
+                        + "and `role_id` = ? "
+                        + "and `expiration_date` >= (DATE_FORMAT(NOW(), '%Y-%m-%d'))");
 
                 stm.setString(1, user.getUsername());
                 stm.setString(2, Utils.getMd5(user.getPassword()));
@@ -57,8 +61,20 @@ public class UserServices {
         }
     }
     
-    public boolean signUp(User user) throws SQLException {
-        if(!checkUserExistence(user.getUsername())) {
+    public int signUp(User user) throws SQLException {
+        if(Utils.checkSpecialCharacter(user.getUsername())) {
+            return 10;
+        }
+        
+        else if(Utils.checkSpecialCharacter(user.getName())) {
+            return 11;
+        }
+        
+        else if(checkUserExistenceByUsername(user.getUsername())) {
+            return 12;
+        }
+        
+        else {
             try (Connection conn = JdbcUtils.getConn()) {
                 PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO `user` "
                         + "(username, name, email, date_of_birth, gender, role_id, department_id, registration_date, expiration_date, address, phone, password)"
@@ -79,13 +95,12 @@ public class UserServices {
 
                 preparedStatement.executeUpdate();
 
-                return true;
+                return 1;
             }
         }
-        return false;
     }
     
-    public static boolean checkUserExistence(String username) throws SQLException {
+    public static boolean checkUserExistenceByUsername(String username) throws SQLException {
         try (Connection conn = JdbcUtils.getConn()) {
             PreparedStatement stm = conn.prepareStatement("SELECT `id` FROM `user` WHERE `username` = ?");
             
@@ -105,6 +120,24 @@ public class UserServices {
             PreparedStatement stm = conn.prepareStatement("SELECT `id` FROM `user` WHERE `id` = ?");
             
             stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.isBeforeFirst()) {
+                return true;
+            }
+
+            return false;
+        }
+    }
+    
+    public static boolean checkUserExistence(Integer userId, String username) throws SQLException {
+        try (Connection conn = JdbcUtils.getConn()) {
+            PreparedStatement stm = conn.prepareStatement("SELECT `id` "
+                    + "FROM `user` "
+                    + "WHERE `id` = ? AND `username` IN (?) ");
+            
+            stm.setInt(1, userId);
+            stm.setString(2, username);
             ResultSet rs = stm.executeQuery();
             
             if (rs.isBeforeFirst()) {
@@ -168,107 +201,143 @@ public class UserServices {
         return false;
     }
     
-    public boolean addUser(User user) throws SQLException {
-        if(user.getUsername() == null) {
-            return false;
+    public Integer addUser(User user) throws SQLException {
+        if(user.getId() != null) {
+            return 14;
         }
         
-        if(user.getPassword() == null) {
-            return false;
+        else if(user.getUsername() == null) {
+            return 10;
         }
         
-        if(user.getRoleId() == null) {
-            return false;
+        else if(user.getPassword() == null) {
+            return 11;
         }
         
-        if(user.getDepartmentId() == null) {
-            return false;
+        else if(user.getRoleId() == null) {
+            return 12;
         }
         
-        else {
-            try (Connection conn = JdbcUtils.getConn()) {
-                conn.setAutoCommit(false);
+        else if(user.getDepartmentId() == null) {
+            return 13;
+        }
 
-                PreparedStatement stm = conn.prepareStatement("INSERT INTO `user`"
-                        + "(username, name, email, date_of_birth, gender, role_id, department_id, registration_date, expiration_date, address, phone, password)"
-                        + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        if(Utils.checkSpecialCharacter(user.getUsername())) {
+            return 15;
+        }
+        
+        else if(Utils.checkSpecialCharacter(user.getName())) {
+            return 16;
+        }
+        
+        else if(checkUserExistenceByUsername(user.getUsername())) {
+            return 17;
+        }
 
-                stm.setString(1, user.getUsername());
-                stm.setString(2, user.getName());
-                stm.setString(3, user.getEmail());
-                stm.setDate(4, user.getDateOfBirth());
-                stm.setString(5, user.getGender());
-                stm.setInt(6, user.getRoleId());
-                stm.setInt(7, user.getDepartmentId());
-                stm.setDate(8, user.getRegistrationDate());
-                stm.setDate(9, user.getExpirationDate());
-                stm.setString(10, user.getAddress());
-                stm.setString(11, user.getPhone());
-                stm.setString(12, Utils.getMd5(user.getPassword()));
+        try (Connection conn = JdbcUtils.getConn()) {
+            conn.setAutoCommit(false);
 
-                stm.executeUpdate();
-                conn.commit();
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO `user` "
+                    + "(username, name, email, date_of_birth, gender, role_id, department_id, registration_date, expiration_date, address, phone, password) "
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-                return true;
-            }
+            stm.setString(1, user.getUsername());
+            stm.setString(2, user.getName());
+            stm.setString(3, user.getEmail());
+            stm.setDate(4, user.getDateOfBirth());
+            stm.setString(5, user.getGender());
+            stm.setInt(6, user.getRoleId());
+            stm.setInt(7, user.getDepartmentId());
+            stm.setDate(8, user.getRegistrationDate());
+            stm.setDate(9, user.getExpirationDate());
+            stm.setString(10, user.getAddress());
+            stm.setString(11, user.getPhone());
+            stm.setString(12, Utils.getMd5(user.getPassword()));
+
+            stm.executeUpdate();
+            conn.commit();
+
+            return 1;
         }
     }
     
-    public boolean editUser(User user) throws SQLException {
+    public Integer editUser(User user) throws SQLException {
         if(user.getUsername() == null) {
-            return false;
+            return 10;
         }
         
-        if(user.getPassword() == null) {
-            return false;
+        else if(user.getPassword() == null) {
+            return 11;
         }
         
-        if(user.getRoleId() == null) {
-            return false;
+        else if(user.getRoleId() == null) {
+            return 12;
         }
         
-        if(user.getDepartmentId() == null) {
-            return false;
+        else if(user.getDepartmentId() == null) {
+            return 13;
         }
         
-        else {
-            try (Connection conn = JdbcUtils.getConn()) {
-                conn.setAutoCommit(false);
-                
-                PreparedStatement stm = conn.prepareStatement("UPDATE `user` "
-                        + "SET `username` = ?, "
-                        + "`name` = ?, "
-                        + "`email` = ?, "
-                        + "`date_of_birth` = ?, "
-                        + "`gender` = ?, "
-                        + "`role_id` = ?, "
-                        + "`department_id` = ?, "
-                        + "`registration_date` = ?, "
-                        + "`expiration_date` = ?, "
-                        + "`address` = ?, "
-                        + "`phone` = ?, "
-                        + "`password` = ? "
-                        + "WHERE `id` = ?");
+        else if(user.getId() == null) {
+            return 14;
+        }
+        
+        if(Utils.checkSpecialCharacter(user.getUsername())) {
+            return 15;
+        }
+        
+        else if(Utils.checkSpecialCharacter(user.getName())) {
+            return 16;
+        }
+        
+        else if(!checkUserExistenceById(user.getId())) {
+            return 17;
+        }
+            
+        else if(checkUserExistenceByUsername(user.getUsername())) {
+            if(!checkUserExistence(user.getId(), user.getUsername())) {
+                return 18;
+            }
+        }
+            
+        try (Connection conn = JdbcUtils.getConn()) {
+            conn.setAutoCommit(false);
 
-                stm.setString(1, user.getUsername());
-                stm.setString(2, user.getName());
-                stm.setString(3, user.getEmail());
-                stm.setDate(4, user.getDateOfBirth());
-                stm.setString(5, user.getGender());
-                stm.setInt(6, user.getRoleId());
-                stm.setInt(7, user.getDepartmentId());
-                stm.setDate(8, user.getRegistrationDate());
-                stm.setDate(9, user.getExpirationDate());
-                stm.setString(10, user.getAddress());
-                stm.setString(11, user.getPhone());
-                stm.setString(12, Utils.getMd5(user.getPassword()));
-                stm.setInt(13, user.getId());
-                
-                stm.executeUpdate();
-                conn.commit();
+            PreparedStatement stm = conn.prepareStatement("UPDATE `user` "
+                    + "SET `username` = ?, "
+                    + "`name` = ?, "
+                    + "`email` = ?, "
+                    + "`date_of_birth` = ?, "
+                    + "`gender` = ?, "
+                    + "`role_id` = ?, "
+                    + "`department_id` = ?, "
+                    + "`registration_date` = ?, "
+                    + "`expiration_date` = ?, "
+                    + "`address` = ?, "
+                    + "`phone` = ?, "
+                    + "`password` = ? "
+                    + "WHERE `id` = ?");
 
-                return true;
-             }
+            System.out.print("asdasdaadas");
+
+            stm.setString(1, user.getUsername());
+            stm.setString(2, user.getName());
+            stm.setString(3, user.getEmail());
+            stm.setDate(4, user.getDateOfBirth());
+            stm.setString(5, user.getGender());
+            stm.setInt(6, user.getRoleId());
+            stm.setInt(7, user.getDepartmentId());
+            stm.setDate(8, user.getRegistrationDate());
+            stm.setDate(9, user.getExpirationDate());
+            stm.setString(10, user.getAddress());
+            stm.setString(11, user.getPhone());
+            stm.setString(12, Utils.getMd5(user.getPassword()));
+            stm.setInt(13, user.getId());
+
+            stm.executeUpdate();
+            conn.commit();
+
+            return 1;
         }
     }
 }

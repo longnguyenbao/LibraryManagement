@@ -97,7 +97,8 @@ public class SignUpController implements Initializable {
             return;
         }
         
-        if(cbxRole.getSelectionModel().getSelectedItem().getId() == 2){
+        boolean check = RoleServices.getRoleById(cbxRole.getSelectionModel().getSelectedItem().getId()).getName().equals("Admin");
+        if(check){
             Utils.getBox("You can not sign up with this role!", Alert.AlertType.WARNING).show();
             return;
         }
@@ -117,6 +118,10 @@ public class SignUpController implements Initializable {
             return;
         }
         
+        int year = LocalDate.now().getYear();
+        int month = LocalDate.now().getMonthValue();
+        int date = LocalDate.now().getDayOfMonth();
+        
         User user = new User();
         user.setUsername(txtUsername.getText());
         user.setName(txtName.getText());
@@ -126,17 +131,29 @@ public class SignUpController implements Initializable {
         user.setDepartmentId(cbxDepartment.getSelectionModel().getSelectedItem().getId());
         user.setDateOfBirth(Utils.parseDate(dpDateOfBirth.valueProperty().get()));
         user.setRegistrationDate(Utils.parseDateNow());
-        user.setExpirationDate(Utils.parseDateNow());
+        user.setExpirationDate(Utils.parseDate(LocalDate.of(year + 2, month, date)));
         user.setAddress(txtAddress.getText());
         user.setPhone(txtPhone.getText());
         user.setPassword(txtPassword.getText());
    
         UserServices s = new UserServices();
-        if(s.signUp(user)) {
-            Utils.getBox("Sign up success!", Alert.AlertType.INFORMATION).show();
-        }
-        else {
-            Utils.getBox("This username is already registered!", Alert.AlertType.ERROR).show();
+        Integer check1 = s.signUp(user);
+        
+        switch (check1) {
+            case 1:
+                Utils.getBox("Sign up successful!", Alert.AlertType.INFORMATION).show();
+                break;
+            case 10:
+                Utils.getBox("Username contains special character!", Alert.AlertType.ERROR).show();
+                break;
+            case 11:
+                Utils.getBox("Name contains special character!", Alert.AlertType.ERROR).show();
+                break;
+            case 12:
+                Utils.getBox("This username is already registered!", Alert.AlertType.ERROR).show();
+                break;
+            default:
+                Utils.getBox("Something went wrong!", Alert.AlertType.ERROR).show();
         }
     }
     

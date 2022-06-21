@@ -47,7 +47,7 @@ public class SignInController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.loadComboBoxRole();
-        this.cbxRole.getSelectionModel().select(2);
+        this.cbxRole.getSelectionModel().select(0);
     }    
     
     public void signInHandler(ActionEvent evt) throws IOException, SQLException {
@@ -80,6 +80,9 @@ public class SignInController implements Initializable {
 
             MenuController sceneMenu = fxmlLoader.getController();
             sceneMenu.setUser(newUser);
+            
+            String role = RoleServices.getRoleById(newUser.getRoleId()).getName();
+            sceneMenu.setRole(role);
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -89,7 +92,7 @@ public class SignInController implements Initializable {
         }
 
         else {
-            Utils.getBox("Sign in infomations are wrong!", Alert.AlertType.WARNING).show();
+            Utils.getBox("Sign in infomations are wrong or your account is expired!", Alert.AlertType.WARNING).show();
         }
     }
     
